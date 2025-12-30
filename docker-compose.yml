@@ -8,8 +8,6 @@
 # - Redis (caching layer)
 # - Frontend (React app)
 
-version: '3.8'
-
 services:
   # ============================================
   # NGINX - Load Balancer & Reverse Proxy
@@ -45,9 +43,10 @@ services:
     container_name: url-shortener-api-1
     environment:
       - PORT=8080
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/urlshortener?sslmode=disable
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-urlshortener}?sslmode=disable
       - REDIS_URL=redis:6379
-      - BASE_URL=http://localhost
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - BASE_URL=${BASE_URL:-http://localhost}
     depends_on:
       postgres:
         condition: service_healthy
@@ -75,9 +74,10 @@ services:
     container_name: url-shortener-api-2
     environment:
       - PORT=8080
-      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/urlshortener?sslmode=disable
+      - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-urlshortener}?sslmode=disable
       - REDIS_URL=redis:6379
-      - BASE_URL=http://localhost
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      - BASE_URL=${BASE_URL:-http://localhost}
     depends_on:
       postgres:
         condition: service_healthy
@@ -121,14 +121,15 @@ services:
     image: postgres:15-alpine
     container_name: url-shortener-postgres
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=urlshortener
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-urlshortener}
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./infra/scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    ports:
-      - "5432:5432"
+    # 🔒 SECURITY: Ports commented out in production - only expose if needed for debugging
+    # ports:
+    #   - "5432:5432"
     networks:
       - app-network
     restart: unless-stopped
@@ -150,11 +151,12 @@ services:
   redis:
     image: redis:7-alpine
     container_name: url-shortener-redis
-    command: redis-server --appendonly yes --maxmemory 64mb --maxmemory-policy allkeys-lru
+    command: redis-server --appendonly yes --maxmemory 64mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD:-}
     volumes:
       - redis-data:/data
-    ports:
-      - "6379:6379"
+    # 🔒 SECURITY: Ports commented out in production - only expose if needed for debugging
+    # ports:
+    #   - "6379:6379"
     networks:
       - app-network
     restart: unless-stopped
