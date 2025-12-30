@@ -11,13 +11,13 @@ RUN apk add --no-cache git ca-certificates tzdata
 WORKDIR /app
 
 # Copy go mod files first (better layer caching)
-COPY go.mod go.sum* ./
-
-# Download dependencies
-RUN go mod download && go mod verify
+COPY go.mod ./
 
 # Copy source code
 COPY . .
+
+# Download and verify dependencies (generates go.sum if missing)
+RUN go mod tidy && go mod download && go mod verify
 
 # Build the binary with optimizations
 # CGO_ENABLED=0: Build static binary without C dependencies
