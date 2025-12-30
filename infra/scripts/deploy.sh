@@ -5,7 +5,8 @@
 # Usage: ./deploy.sh [environment]
 # Example: ./deploy.sh production
 
-set -e
+# Exit on error, undefined vars, and pipe failures
+set -euo pipefail
 
 ENVIRONMENT=${1:-production}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
