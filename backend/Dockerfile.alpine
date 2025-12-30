@@ -1,0 +1,56 @@
+# Dockerfile alternativo con Alpine para debugging
+# Tamaño aproximado: ~15-20MB (más grande que scratch pero con shell)
+
+# ============================================
+# STAGE 1: Build Stage
+# ============================================
+FROM golang:1.21-alpine AS builder
+
+RUN apk add --no-cache git ca-certificates tzdata upx
+
+WORKDIR /app
+
+COPY go.mod go.sum* ./
+RUN go mod download && go mod verify
+
+COPY . .
+
+# Build with maximum optimizations
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+    -ldflags="-w -s" \
+    -trimpath \
+    -o /app/server \
+    ./cmd/api
+
+# Compress binary with UPX (reduces size by ~50%)
+RUN upx --best --lzma /app/server || true
+
+# ============================================
+# STAGE 2: Production Stage (Alpine)
+# ============================================
+FROM alpine:3.19
+
+# Security: Run as non-root user
+RUN addgroup -g 1000 app && \
+    adduser -u 1000 -G app -s /bin/sh -D app
+
+# Install CA certificates for HTTPS
+RUN apk --no-cache add ca-certificates tzdata
+
+WORKDIR /app
+
+# Copy binary
+COPY --from=builder /app/server /app/server
+
+# Change ownership
+RUN chown -R app:app /app
+
+# Switch to non-root user
+USER app
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+
+ENTRYPOINT ["/app/server"]

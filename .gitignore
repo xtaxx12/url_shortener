@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+.terraform.lock.hcl
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+*.out
+
+# Docker
+.docker/
+
+# Temp files
+tmp/
+temp/
+*.tmp
