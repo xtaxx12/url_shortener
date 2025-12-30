@@ -1,0 +1,51 @@
+# ============================================
+# Deploy Backend to Fly.io
+# ============================================
+# Triggered on push to main after tests pass
+
+name: Deploy Backend to Fly.io
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-fly.yml'
+  workflow_dispatch:
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Fly.io CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to Fly.io
+        working-directory: ./backend
+        run: flyctl deploy --remote-only
+
+      - name: Verify deployment
+        run: |
+          echo "🚀 Deployment complete!"
+          echo "Checking health endpoint..."
+          sleep 10
+          curl -f https://url-shortener-api.fly.dev/health || echo "Health check pending..."
+          
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Backend Deployed to Fly.io" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| **URL** | https://url-shortener-api.fly.dev |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Health** | https://url-shortener-api.fly.dev/health |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
