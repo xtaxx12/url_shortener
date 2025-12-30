@@ -12,9 +12,13 @@ type URL struct {
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
+// MaxURLLength defines the maximum allowed URL length to prevent abuse
+const MaxURLLength = 2048
+
 // CreateURLRequest represents the request to create a short URL
+// 🔒 SECURITY: Limit URL length to prevent payload attacks
 type CreateURLRequest struct {
-	URL string `json:"url" binding:"required,url"`
+	URL string `json:"url" binding:"required,url,max=2048"`
 }
 
 // CreateURLResponse represents the response after creating a short URL

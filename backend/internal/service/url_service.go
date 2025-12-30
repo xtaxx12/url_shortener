@@ -3,11 +3,16 @@ package service
 import (
 	"errors"
 	"log"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/username/url-shortener/internal/domain"
 	"github.com/username/url-shortener/pkg/shortener"
 )
+
+// 🔒 SECURITY: Blocked URL schemes to prevent javascript: and data: attacks
+var blockedSchemes = []string{"javascript", "data", "vbscript", "file"}
 
 // URLService handles URL shortening business logic (Application Layer)
 type URLService struct {
@@ -30,8 +35,42 @@ func NewURLService(urlRepo domain.URLRepository, cacheRepo domain.CacheRepositor
 	}
 }
 
+// validateURL checks if the URL is safe to redirect to
+// 🔒 SECURITY: Prevents Open Redirect and malicious scheme attacks
+func validateURL(rawURL string) error {
+	parsedURL, err := url.Parse(rawURL)
+	if err != nil {
+		return errors.New("invalid URL format")
+	}
+
+	// Check for blocked schemes
+	scheme := strings.ToLower(parsedURL.Scheme)
+	for _, blocked := range blockedSchemes {
+		if scheme == blocked {
+			return errors.New("URL scheme not allowed")
+		}
+	}
+
+	// Ensure URL has a valid scheme
+	if scheme != "http" && scheme != "https" {
+		return errors.New("only http and https URLs are allowed")
+	}
+
+	// Ensure URL has a host
+	if parsedURL.Host == "" {
+		return errors.New("URL must have a valid host")
+	}
+
+	return nil
+}
+
 // CreateShortURL creates a new shortened URL
 func (s *URLService) CreateShortURL(originalURL string) (*domain.CreateURLResponse, error) {
+	// 🔒 SECURITY: Validate URL before storing
+	if err := validateURL(originalURL); err != nil {
+		return nil, err
+	}
+
 	// Generate unique short code
 	shortCode := shortener.GenerateCode(7)
 
@@ -74,7 +113,7 @@ func (s *URLService) CreateShortURL(originalURL string) (*domain.CreateURLRespon
 
 	return &domain.CreateURLResponse{
 		ShortCode:   shortCode,
-		ShortURL:    s.baseURL + "/" + shortCode,
+		ShortURL:    s.baseURL + "/s/" + shortCode,
 		OriginalURL: originalURL,
 	}, nil
 }
