@@ -1,10 +1,19 @@
 # 🔗 URL Shortener Escalable
 
 [![CI/CD Pipeline](https://github.com/username/url-shortener/actions/workflows/pipeline.yml/badge.svg)](https://github.com/username/url-shortener/actions)
-[![Docker Image Size](https://img.shields.io/badge/docker%20image-<50MB-green)](https://hub.docker.com)
+[![Deploy to Fly.io](https://github.com/username/url-shortener/actions/workflows/deploy-fly.yml/badge.svg)](https://github.com/username/url-shortener/actions)
+[![Docker Image Size](https://img.shields.io/badge/docker%20image-13.8MB-brightgreen)](https://hub.docker.com)
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://golang.org)
 
 > Un acortador de URLs de alto rendimiento diseñado para demostrar dominio en FullStack y DevOps moderno.
+
+## 🌐 Demo en Producción
+
+| Servicio | URL |
+|----------|-----|
+| **Frontend** | https://url-shortener.vercel.app |
+| **Backend API** | https://url-shortener-api.fly.dev |
+| **Health Check** | https://url-shortener-api.fly.dev/health |
 
 ## 🏗️ Arquitectura
 
