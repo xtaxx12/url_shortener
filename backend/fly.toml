@@ -4,7 +4,7 @@
 # Deploy with: fly deploy
 # Docs: https://fly.io/docs/reference/configuration/
 
-app = "url-shortener-api"
+app = "url-short-sebas-api"
 primary_region = "mia"  # Miami - cercano a Latinoamérica
 
 [build]
