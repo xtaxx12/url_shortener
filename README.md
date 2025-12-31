@@ -11,7 +11,7 @@
 
 | Servicio | URL |
 |----------|-----|
-| **Frontend** | url-shortener-nu-flax.vercel.app |
+| **Frontend** | https://url-shortener-nu-flax.vercel.app |
 | **Backend API** | https://url-short-sebas-api.fly.dev |
 | **Health Check** | https://url-short-sebas-api.fly.dev/health |
 
