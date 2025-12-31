@@ -46,7 +46,7 @@ jobs:
         working-directory: ./frontend
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
-          VITE_API_URL: https://url-shortener-api.fly.dev/api
+          VITE_API_URL: https://url-short-sebas-api.fly.dev/api
 
       - name: Deploy to Vercel
         working-directory: ./frontend
@@ -58,5 +58,5 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| **URL** | https://url-shortener.vercel.app |" >> $GITHUB_STEP_SUMMARY
+          echo "| **URL** | https://url-shortener-xtaxx12.vercel.app |" >> $GITHUB_STEP_SUMMARY
           echo "| **Commit** | \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
