@@ -43,8 +43,7 @@ jobs:
         run: npm install -g vercel@latest
 
       - name: Deploy to Vercel
-        working-directory: ./frontend
-        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        run: vercel deploy ./frontend --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
         env:
           VITE_API_URL: https://url-short-sebas-api.fly.dev/api
 
