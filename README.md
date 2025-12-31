@@ -12,8 +12,8 @@
 | Servicio | URL |
 |----------|-----|
 | **Frontend** | https://url-shortener.vercel.app |
-| **Backend API** | https://url-shortener-api.fly.dev |
-| **Health Check** | https://url-shortener-api.fly.dev/health |
+| **Backend API** | https://url-short-sebas-api.fly.dev |
+| **Health Check** | https://url-short-sebas-api.fly.dev/health |
 
 ## 🏗️ Arquitectura
 

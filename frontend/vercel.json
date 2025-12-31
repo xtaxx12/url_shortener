@@ -44,15 +44,15 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://url-shortener-api.fly.dev/api/:path*"
+            "destination": "https://url-short-sebas-api.fly.dev/api/:path*"
         },
         {
             "source": "/s/:code",
-            "destination": "https://url-shortener-api.fly.dev/:code"
+            "destination": "https://url-short-sebas-api.fly.dev/:code"
         },
         {
             "source": "/health",
-            "destination": "https://url-shortener-api.fly.dev/health"
+            "destination": "https://url-short-sebas-api.fly.dev/health"
         }
     ]
 }

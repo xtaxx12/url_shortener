@@ -236,8 +236,8 @@ vercel --prod
 |--------|-------|------|
 | `FLY_API_TOKEN` | `FlyV1...` (del paso 3) | Deploy a Fly.io |
 | `VERCEL_TOKEN` | Token de Vercel | Deploy a Vercel |
-| `VERCEL_ORG_ID` | ID de tu organización | Deploy a Vercel |
-| `VERCEL_PROJECT_ID` | ID del proyecto | Deploy a Vercel |
+| `VERCEL_ORG_ID` | `team_ZnGmSWKKAwiEW6XAQdI7KVAZ` | Deploy a Vercel |
+| `VERCEL_PROJECT_ID` | `prj_oA4P727s7zerwZ0slc1DM8HguRnK` | Deploy a Vercel |
 | `DATABASE_URL` | URL de Neon | Tests de integración |
 
 ---

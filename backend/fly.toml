@@ -5,7 +5,7 @@
 # Docs: https://fly.io/docs/reference/configuration/
 
 app = "url-short-sebas-api"
-primary_region = "mia"  # Miami - cercano a Latinoamérica
+primary_region = "iad"  # Virgnia - Región estable y común
 
 [build]
   dockerfile = "Dockerfile.alpine"  # Usar Alpine para tener healthchecks
