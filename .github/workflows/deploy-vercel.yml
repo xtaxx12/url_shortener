@@ -42,19 +42,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
-      - name: Pull Vercel Environment
-        working-directory: ./frontend
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project
-        working-directory: ./frontend
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VITE_API_URL: https://url-short-sebas-api.fly.dev/api
-
       - name: Deploy to Vercel
         working-directory: ./frontend
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VITE_API_URL: https://url-short-sebas-api.fly.dev/api
 
       - name: Create deployment summary
         run: |
