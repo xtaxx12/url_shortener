@@ -11,7 +11,11 @@
 
 | Servicio | URL |
 |----------|-----|
+<<<<<<< HEAD
 | **Frontend** | https://url-shortener-xtaxx12.vercel.app |
+=======
+| **Frontend** | https://url-shortener-nu-flax.vercel.app |
+>>>>>>> 9f9053114e7fb151f859ff4f67768763df1e8ef0
 | **Backend API** | https://url-short-sebas-api.fly.dev |
 | **Auditoría** | [Ver Reporte de Calidad ✅](./REVISIÓN_FINAL.md) |
 | **Health Check** | https://url-short-sebas-api.fly.dev/health |
