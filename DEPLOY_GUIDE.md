@@ -18,7 +18,7 @@
         ▼
   ┌───────────┐
   │  FLY.IO   │ ◄── Backend Go (Auto-scaling)
-  │  (Free)   │     https://url-shortener-api.fly.dev
+  │  (Free)   │     https://url-short-sebas-api.fly.dev
   └─────┬─────┘
         │
    ┌────┴────┐
@@ -125,7 +125,7 @@ fly auth login
 cd backend
 
 # Crear la app (solo la primera vez)
-fly apps create url-shortener-api
+fly apps create url-short-sebas-api
 
 # Verificar que se creó
 fly apps list
@@ -162,7 +162,7 @@ fly status
 
 ```bash
 # Health check
-curl https://url-shortener-api.fly.dev/health
+curl https://url-short-sebas-api.fly.dev/health
 # Debe retornar: {"status":"healthy",...}
 ```
 
@@ -190,7 +190,7 @@ fly tokens create deploy -x 999999h
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
 5. Agregar variable de entorno:
-   - `VITE_API_URL` = `https://url-shortener-api.fly.dev/api`
+   - `VITE_API_URL` = `https://url-short-sebas-api.fly.dev/api`
 6. Click **"Deploy"**
 
 ### Opción B: Deploy con CLI
@@ -248,7 +248,7 @@ vercel --prod
 
 1. [ ] **Backend funciona:**
    ```bash
-   curl https://url-shortener-api.fly.dev/health
+   curl https://url-short-sebas-api.fly.dev/health
    ```
 
 2. [ ] **Frontend funciona:**
@@ -256,7 +256,7 @@ vercel --prod
 
 3. [ ] **Crear URL funciona:**
    ```bash
-   curl -X POST https://url-shortener-api.fly.dev/api/shorten \
+   curl -X POST https://url-short-sebas-api.fly.dev/api/shorten \
      -H "Content-Type: application/json" \
      -d '{"url":"https://github.com"}'
    ```
@@ -288,7 +288,7 @@ vercel --prod
 ```bash
 fly status              # Ver estado de la app
 fly logs                # Ver logs en tiempo real
-fly logs -a url-shortener-api  # Logs de una app específica
+fly logs -a url-short-sebas-api  # Logs de una app específica
 fly ssh console         # SSH al contenedor
 fly scale count 2       # Escalar a 2 instancias
 fly secrets list        # Ver secretos configurados
@@ -343,8 +343,8 @@ fly scale count 1
 Una vez completados todos los pasos, tu aplicación estará disponible en:
 
 - **Frontend:** https://url-shortener.vercel.app
-- **Backend API:** https://url-shortener-api.fly.dev
-- **Health Check:** https://url-shortener-api.fly.dev/health
+- **Backend API:** https://url-short-sebas-api.fly.dev
+- **Health Check:** https://url-short-sebas-api.fly.dev/health
 
 Cada push a `main` desplegará automáticamente:
 - Cambios en `backend/` → Fly.io
